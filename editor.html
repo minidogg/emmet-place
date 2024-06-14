@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emmet Live Editor</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        textarea {
+            width: 80%;
+            height: 200px;
+            margin-bottom: 20px;
+            font-family: monospace;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        iframe {
+            width: 80%;
+            height: 400px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Emmet Live Editor</h1>
+    <textarea id="emmetInput" placeholder="Type your Emmet abbreviation here..." spellcheck="false"></textarea>
+    <iframe id="output"></iframe>
+    <textarea id="htmlOutput" spellcheck="false" placeholder="Result HTML"></textarea>
+
+
+    
+    <script type="module">
+        import expand from 'https://cdn.jsdelivr.net/npm/emmet@2.4.7/+esm'
+        const emmetInput = document.getElementById('emmetInput');
+        const output = document.getElementById('output');
+        const outputHtml = document.getElementById('htmlOutput');
+
+        emmetInput.addEventListener('input', () => {
+            const emmetAbbreviation = emmetInput.value;
+            try {
+                const htmlContent = expand(emmetAbbreviation, 'html');
+                const fullHtml = `${htmlContent}`;
+
+                outputHtml.value = fullHtml;
+                output.srcdoc = fullHtml;
+            } catch (error) {
+                output.srcdoc = `<p style="color:red;">Error: ${error.message}</p>`;
+            }
+        });
+    </script>
+</body>
+</html>
